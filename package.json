@@ -1,32 +1,29 @@
 {
-  "name": "happy-birthday",
-  "version": "1.0.0",
-  "description": "An app that let's you say happy birthday to your friend in a nerdy way.",
-  "main": "index.js",
-  "devDependencies": {
-    "browser-sync": "^2.18.13",
-    "run-script-os": "^1.0.2"
-  },
+  "name": "hbd",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "run-script-os",
-    "start:win32": "browser-sync start --server --files '**/*.css, **/*.html, **/*.js, !node_modules/**/*' --directory --port 7777 --browser \"C:\\Program Files\\Firefox Developer Edition\\firefox.exe\"",
-    "//": "Hello! If you are having trouble running this command. Try changing Firefox Developer Edition to FirefoxDeveloperEdition",
-    "start:darwin:linux": "browser-sync start --server --files '**/*.css, **/*.html, **/*.js, !node_modules/**/*' --directory --port 7777",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/faahim/happy-birthday.git"
+  "dependencies": {
+    "gsap": "^3.12.7",
+    "next": "15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0"
   },
-  "keywords": [
-    "Happy",
-    "Birthday"
-  ],
-  "author": "Afiur Rahman Fahim",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/faahim/happy-birthday/issues"
-  },
-  "homepage": "https://github.com/faahim/happy-birthday#readme",
-  "dependencies": {}
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
 }
