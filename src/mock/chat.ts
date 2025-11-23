@@ -1,12 +1,12 @@
 const chatData = [
   {
     message:
-      "I know you dont care aobout this but I want you to know that you are Beatiful.",
+      "Dua kori jeno Duniyar shob kharap jinish tmr theke dure thake abong valo jinish tme pao",
     user: "me",
   },
   {
     message:
-      "Dua kori jeno Duniyar shob kharap jinish tmr theke dure thake abong valo jinish tme pao",
+      "I know you dont care aobout this but I want you to know that you are Beatiful.",
     user: "me",
   },
   {

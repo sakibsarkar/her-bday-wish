@@ -1,16 +1,43 @@
+"use client";
 import chatData from "@/mock/chat";
+import gsap from "gsap";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { FaPhoneFlip, FaVideo } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
-
-const MessageInbox = () => {
+const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
   const fullMessage =
     "Happy birthday to you!! You’ve brought so much happiness into my life, and I hope today brings you just as much as you give the world every single day. Happy birthday! blah blah blah...";
+
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    if (timelineRef.current) timelineRef.current.kill();
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        onComplete();
+      },
+    });
+
+    tl.staggerTo(".input-char", 0.5, { display: "inline" }, 0.05).to(
+      "#chat",
+      0.5,
+      { scale: 0.2, opacity: 0, y: -150 },
+      "+=0.7"
+    );
+
+    timelineRef.current = tl;
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
 
   return (
     <div id="chat" className="flex flex-col gap-0 w-full h-[100dvh] relative">
       <Image
-        src="/images/chatbg.jpg"
+        src="/images/chatbg.jpeg"
         alt="Logo"
         width={390}
         height={844}
@@ -35,18 +62,15 @@ const MessageInbox = () => {
       {/* Chat Messages */}
       <div className="h-full w-full overflow-auto flex flex-col gap-[15px] shrink pb-4">
         {chatData.map(({ message, user }, i) => (
-          <>
+          <div key={i + "chat_message"} className="w-full">
             {user === "me" ? (
-              <div
-                key={i}
-                className="flex items-center justify-end w-full pr-2"
-              >
+              <div className="flex items-center justify-end w-full pr-2">
                 <p className="max-w-[250px] py-2 px-3 bg-[#3d61d4] text-white rounded-[17px] text-sm">
                   {message}
                 </p>
               </div>
             ) : (
-              <div key={i} className="flex items-end gap-2 pl-2">
+              <div className="flex items-end gap-2 pl-2">
                 <img
                   src="/images/user.jpg"
                   className="w-[30px] h-[30px] rounded-full object-cover"
@@ -57,7 +81,7 @@ const MessageInbox = () => {
                 </p>
               </div>
             )}
-          </>
+          </div>
         ))}
       </div>
 

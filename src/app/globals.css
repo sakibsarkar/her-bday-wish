@@ -11,6 +11,14 @@
   --color-chat-primary: var(--chat-primary);
 }
 
+html,
+body {
+  max-width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
 body {
   background-color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -24,7 +32,7 @@ body {
 
 .baloons_wish {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100dvh;
   overflow: hidden; /* hide balloons outside screen */
 }
@@ -32,6 +40,4 @@ body {
 .baloons img {
   position: absolute; /* required for free movement */
   bottom: -100%;
-  left: 50%;
-  transform: translateX(-50%);
 }
