@@ -21,3 +21,17 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.baloons_wish {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden; /* hide balloons outside screen */
+}
+
+.baloons img {
+  position: absolute; /* required for free movement */
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
