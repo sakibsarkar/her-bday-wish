@@ -14,7 +14,7 @@ const ItsHBD = ({ onComplete }: { onComplete: () => void }) => {
 
     tl.fromTo(
       "#birthday",
-      { autoAlpha: 0, y: 30 },
+      { autoAlpha: 0, y: 0 },
       { autoAlpha: 1, y: 0, duration: 1 }
     );
 
@@ -25,7 +25,10 @@ const ItsHBD = ({ onComplete }: { onComplete: () => void }) => {
     };
   }, []);
   return (
-    <div id="birthday" className="mt-10 text-center">
+    <div
+      id="birthday"
+      className="text-center center w-full h-full bg-[#ee4848]"
+    >
       <p className="text-xl">It&apos;s your birthday!!! :D</p>
     </div>
   );

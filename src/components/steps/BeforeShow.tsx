@@ -1,4 +1,5 @@
 "use client";
+import { playwriteNetherland as alkatra } from "@/fonts";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
 import { ICompleteOption } from "../Birthday";
@@ -13,7 +14,9 @@ const BeforeShow = ({
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        onComplete: () => onComplete({ audioVolume: 0.2 }),
+        onComplete: () => {
+          onComplete({ audioVolume: 0.2 });
+        },
       });
 
       tl.from(".idea-6 span", {
@@ -51,7 +54,8 @@ const BeforeShow = ({
             ease: "expo.inOut",
           },
           "-=1" // overlap S animation for smooth timing
-        );
+        )
+        .to(".idea-6", { duration: 2, display: "none" });
     }, root);
 
     return () => ctx.revert();
@@ -59,9 +63,9 @@ const BeforeShow = ({
 
   return (
     <div ref={root} className="flex items-center justify-center w-full h-dvh">
-      <p className="idea-6">
-        <span className="text-[15rem] inline-block">S</span>
-        <span className="text-[15rem] inline-block">O</span>
+      <p className={`idea-6 ${alkatra.className} text-text-main`}>
+        <span className="text-[15rem] inline-block textShadow">S</span>
+        <span className="text-[15rem] inline-block textShadow">O</span>
       </p>
     </div>
   );

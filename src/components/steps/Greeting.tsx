@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { caveatBrush } from "@/fonts";
 import gsap from "gsap";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 const Greeting = ({ onComplete }: { onComplete: () => void }) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -17,6 +19,8 @@ const Greeting = ({ onComplete }: { onComplete: () => void }) => {
       { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }
     );
 
+    tl.to({}, { duration: 2 });
+
     timelineRef.current = tl;
 
     return () => {
@@ -24,15 +28,31 @@ const Greeting = ({ onComplete }: { onComplete: () => void }) => {
     };
   }, []);
   return (
-    <div id="greeting" className="text-center h-full w-full center flex-col">
-      <h1 className="flex flex-col gap-[10px] text-[20px] font-light w-full">
-        <span>Hey</span>
-        <span className="text-[#ff0cae] bg-white  p-[10px] text-2xl font-semibold rounded w-full">
-          Sonali 🌸
-        </span>
-      </h1>
-      <p className="mt-2">I really like your this name btw!</p>
-    </div>
+    <>
+      <div
+        id="greeting"
+        className="text-center h-full w-full center flex-col relative"
+      >
+        <Image
+          src="/images/notePaper.webp"
+          alt="sonali"
+          width={550}
+          height={401}
+          className="w-[95%] mx-auto max-w-[550px] absolute -z-10 rotate-[-10deg]"
+        />
+        <h1
+          className={`flex flex-col gap-[0x]font-light w-full  text-[3rem] rotate-[-10deg] textShadow ${caveatBrush.className}`}
+        >
+          <span className="text-text-main font-bold">Hey</span>
+          <span className="  text-white font-semibold rounded w-full">
+            Sonali 🌸
+          </span>
+        </h1>
+        <p className="text-text-main rotate-[-10deg]">
+          I really like your this name btw!
+        </p>
+      </div>
+    </>
   );
 };
 

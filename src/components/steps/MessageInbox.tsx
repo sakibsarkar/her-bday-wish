@@ -20,6 +20,12 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
       },
     });
 
+    tl.fromTo(
+      "#chat",
+      { scale: 6, opacity: 0, y: -150 },
+      { scale: 1, opacity: 1, y: 0, duration: 0.6 }
+    );
+
     tl.staggerTo(".input-char", 0.5, { display: "inline" }, 0.05).to(
       "#chat",
       0.5,

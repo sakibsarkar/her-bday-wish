@@ -33,7 +33,7 @@ const BirthdayGreeting = () => {
     return () => audioRef.current?.pause();
   }, []);
   return (
-    <div className="ma2x-w-[425px] mx-auto h-[100dvh] overflow-hidden bg-[#0a0a23] text-white font-sans">
+    <div className="ma2x-w-[425px] mx-auto h-[100dvh] overflow-hidden text-white font-sans">
       {/* Step 0 */}
       {step === 0 && <Greeting onComplete={handleComplete} />}
 
