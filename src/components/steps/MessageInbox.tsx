@@ -35,7 +35,10 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
   }, []);
 
   return (
-    <div id="chat" className="flex flex-col gap-0 w-full h-[100dvh] relative">
+    <div
+      id="chat"
+      className="flex flex-col gap-0 w-full h-[100dvh] relative max-w-[425px] mx-auto"
+    >
       <Image
         src="/images/chatbg.jpeg"
         alt="Logo"

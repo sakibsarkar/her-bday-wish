@@ -1,14 +1,19 @@
 "use client";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
+import { ICompleteOption } from "../Birthday";
 
-const BeforeShow = ({ onComplete }: { onComplete: () => void }) => {
+const BeforeShow = ({
+  onComplete,
+}: {
+  onComplete: (options?: ICompleteOption) => void;
+}) => {
   const root = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        onComplete,
+        onComplete: () => onComplete({ audioVolume: 0.2 }),
       });
 
       tl.from(".idea-6 span", {

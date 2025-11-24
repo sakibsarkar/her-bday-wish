@@ -1,8 +1,13 @@
 "use client";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
+import { ICompleteOption } from "../Birthday";
 
-const Reason = ({ onComplete }: { onComplete: () => void }) => {
+const Reason = ({
+  onComplete,
+}: {
+  onComplete: (options?: ICompleteOption) => void;
+}) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
