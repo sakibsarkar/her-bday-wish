@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&family=Caveat+Brush&family=Patrick+Hand&family=Titan+One&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -98,4 +99,17 @@ body {
   50% {
     transform: scale(1.2); /* scale up to 1.5 times */
   }
+}
+
+.caveat-brush {
+  font-family: "Caveat Brush", cursive;
+}
+.titan-one {
+  font-family: "Titan One", sans-serif;
+}
+.patrick-hand {
+  font-family: "Patrick Hand", cursive;
+}
+.alkatra {
+  font-family: "Alkatra", system-ui;
 }

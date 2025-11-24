@@ -9,8 +9,10 @@ function randomInRange(min: number, max: number) {
 }
 const BallonWish = ({
   onComplete,
+  onCandleBlow,
 }: {
   onComplete: (options?: ICompleteOption) => void;
+  onCandleBlow?: () => void;
 }) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -57,7 +59,7 @@ const BallonWish = ({
 
   const handleCandleBlow = () => {
     setIsCandleBlowed(true);
-
+    onCandleBlow?.();
     const crowdAudio = new Audio("/audio/hbd_clapping.mp3");
     const blowAudio = new Audio("/audio/blow.mp3");
     const clapping = new Audio("/audio/clapp.mp3");
@@ -110,7 +112,7 @@ const BallonWish = ({
       </div>
 
       {/* baloons */}
-      <div className="baloons top-0 left-0 absolute w-full h-full flex items-center flex-col z-2">
+      <div className="baloons top-0 left-0 absolute w-full h-full flex items-center flex-col z-20">
         <img src="images/ballon1.svg" alt="" />
         <img src="images/ballon3.svg" alt="" />
         <img src="images/ballon2.svg" alt="" />

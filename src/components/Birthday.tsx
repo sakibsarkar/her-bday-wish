@@ -49,7 +49,16 @@ const BirthdayGreeting = () => {
       {/* Step 4 – MULTIPLE CONTENT */}
       {step === 4 && <Reason onComplete={handleComplete} />}
       {step === 5 && <BeforeShow onComplete={handleComplete} />}
-      {step === 6 && <BallonWish onComplete={handleComplete} />}
+      {step === 6 && (
+        <BallonWish
+          onComplete={handleComplete}
+          onCandleBlow={() => {
+            if (audioRef.current) {
+              audioRef.current.volume = 0.4;
+            }
+          }}
+        />
+      )}
 
       {/* Step 7 – MULTIPLE CONTENT */}
       {step === 7 && <Ending onComplete={handleComplete} />}

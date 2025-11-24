@@ -8,6 +8,7 @@ import {
 export const caveatBrush = Caveat_Brush({ weight: "400", subsets: ["latin"] });
 export const titanOne = Titan_One({ weight: "400", subsets: ["latin"] });
 export const patrickHand = Patrick_Hand({ weight: "400", subsets: ["latin"] });
-export const playwriteNetherland = Alkatra({
+export const alkatra = Alkatra({
   weight: "variable",
+  subsets: ["latin"],
 });
