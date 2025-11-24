@@ -1,3 +1,4 @@
+import { alkatra, caveatBrush, patrickHand, titanOne } from "@/fonts";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -26,9 +27,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        
       >
         {children}
+        <span
+          className={`w-0 h-0 ${alkatra.className} ${caveatBrush.className} ${patrickHand.className} ${titanOne.className} `}
+        ></span>
       </body>
     </html>
   );

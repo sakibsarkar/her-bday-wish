@@ -1,3 +1,4 @@
+import { titanOne } from "@/fonts";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 const Memories = ({ onComplete }: { onComplete: () => void }) => {
@@ -30,7 +31,7 @@ const Memories = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div id="memory" className="text-center mt-8">
       <h2
-        className={`text-[30px] font-bold text-white max-w-[500px] mx-auto textShadow titan-one`}
+        className={`text-[30px] font-bold text-white max-w-[500px] mx-auto textShadow ${titanOne.className}`}
       >
         Here&apos;s the two old conversations of us together that you may like
       </h2>

@@ -22,14 +22,14 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
 
     tl.fromTo(
       "#chat",
-      { scale: 6, opacity: 0, y: -150 },
+      { scale: 0.6, opacity: 0, y: -150 },
       { scale: 1, opacity: 1, y: 0, duration: 0.6 }
     );
 
     tl.staggerTo(".input-char", 0.5, { display: "inline" }, 0.05).to(
       "#chat",
       0.5,
-      { scale: 0.2, opacity: 0, y: -150 },
+      { scale: 5, opacity: 0, y: -150 },
       "+=0.7"
     );
 
@@ -43,7 +43,7 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div
       id="chat"
-      className="flex flex-col gap-0 w-full h-[100dvh] relative max-w-[425px] mx-auto"
+      className="flex flex-col gap-0 w-full h-[100dvh] relative max-w-[425px] mx-auto bg-[#070a24]"
     >
       <Image
         src="/images/chatbg.jpeg"

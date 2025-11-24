@@ -1,4 +1,5 @@
 "use client";
+import { alkatra } from "@/fonts";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
 import { ICompleteOption } from "../Birthday";
@@ -62,7 +63,7 @@ const BeforeShow = ({
 
   return (
     <div ref={root} className="flex items-center justify-center w-full h-dvh">
-      <p className={`idea-6 alkatra text-text-main`}>
+      <p className={`idea-6 text-text-main ${alkatra.className}`}>
         <span className="text-[15rem] inline-block textShadow">S</span>
         <span className="text-[15rem] inline-block textShadow">O</span>
       </p>

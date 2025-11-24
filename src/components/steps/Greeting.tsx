@@ -1,3 +1,4 @@
+import { caveatBrush } from "@/fonts";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -40,7 +41,7 @@ const Greeting = ({ onComplete }: { onComplete: () => void }) => {
           className="w-[95%] mx-auto max-w-[550px] absolute -z-10 rotate-[-10deg]"
         />
         <h1
-          className={`flex flex-col gap-[0x]font-light w-full  text-[3rem] rotate-[-10deg] textShadow caveat-brush`}
+          className={`flex flex-col gap-[0x]font-light w-full  text-[3rem] rotate-[-10deg] textShadow ${caveatBrush.className}`}
         >
           <span className="text-text-main font-bold">Hey</span>
           <span className="  text-white font-semibold rounded w-full">

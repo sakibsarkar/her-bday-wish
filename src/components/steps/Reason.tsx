@@ -1,4 +1,5 @@
 "use client";
+import { patrickHand } from "@/fonts";
 import gsap from "gsap";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
@@ -33,7 +34,7 @@ const Reason = ({
     <div
       ref={rootRef}
       id="reason"
-      className={`mt-10 h-dvh flex items-center justify-center flex-col gap-2 px-2 patrick-hand`}
+      className={`mt-10 h-dvh flex items-center justify-center flex-col gap-2 px-2 ${patrickHand.className}`}
     >
       <div className="relative w-full max-w-[600px]">
         <Image
