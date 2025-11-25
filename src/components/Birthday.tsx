@@ -14,7 +14,7 @@ export interface ICompleteOption {
 }
 
 const BirthdayGreeting = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(7);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleComplete = (options?: ICompleteOption) => {

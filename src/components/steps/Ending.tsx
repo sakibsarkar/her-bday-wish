@@ -22,7 +22,7 @@ const Ending = ({ onComplete }: { onComplete: () => void }) => {
       tl.fromTo(
         "#last_smile",
         { rotate: 0 },
-        { rotate: 90, duration: 0.8, ease: "back.out(1.7)" },
+        { rotate: 90, duration: 0.8, delay: 1, ease: "back.out(1.7)" },
         "-=0.5" // overlap slightly with staggered text
       );
 
@@ -38,18 +38,20 @@ const Ending = ({ onComplete }: { onComplete: () => void }) => {
       id="final"
       className="flex flex-col gap-[10px] justify-center items-center h-dvh"
     >
-      <h3 className="final-line text-[20px] font-bold">
+      <h3 className="final-line text-[20px] font-bold text-text-main">
         Once again, Happy birthday
       </h3>
 
-      <p className="final-line text-[30px] text-white p-[10px] bg-[#ff0b91] w-full text-center ">
+      <p className="final-line text-[30px] text-white p-[10px] bg-text-main w-full text-center ">
         Miss Beautiful{" "}
         <span id="last_smile" className="inline-block">
           :)
         </span>
       </p>
 
-      <p className="final-line text-lg">Thank you so much for reading this</p>
+      <p className="final-line text-lg text-text-main">
+        Thank you so much for reading this
+      </p>
     </div>
   );
 };

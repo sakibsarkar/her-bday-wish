@@ -15,18 +15,14 @@ const BallonWish = ({
   onCandleBlow?: () => void;
 }) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isCandleBlowed, setIsCandleBlowed] = useState(false);
 
   useEffect(() => {
     if (!isCandleBlowed) return;
     if (timelineRef.current) timelineRef.current.kill();
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        // onComplete({ audioVolume: 1 });
-      },
-    });
+    const tl = gsap.timeline({});
     tl.staggerTo(
       ".baloons img",
       2.5,
@@ -56,44 +52,54 @@ const BallonWish = ({
       tl.kill(); // Cleanup
     };
   }, [isCandleBlowed]);
+  const blowAudio = new Audio("/audio/blow.mp3");
 
   const handleCandleBlow = () => {
     setIsCandleBlowed(true);
     onCandleBlow?.();
-    const crowdAudio = new Audio("/audio/hbd_clapping.mp3");
-    const blowAudio = new Audio("/audio/blow.mp3");
-    const clapping = new Audio("/audio/clapp.mp3");
-    blowAudio.currentTime = 2.5;
-    clapping.play();
     blowAudio.play();
-    crowdAudio.play();
+    const crowdAudio = new Audio("/audio/hbd_clapping.mp3");
 
-    const duration = 15 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const clapping = new Audio("/audio/clapp.mp3");
+    setTimeout(() => {
+      clapping.play();
+      crowdAudio.play();
 
-    const interval = setInterval(function () {
-      const timeLeft = animationEnd - Date.now();
+      const duration = 15 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-      if (timeLeft <= 0) {
-        onComplete({ audioVolume: 1 });
-        return clearInterval(interval);
-      }
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
 
-      const particleCount = 50 * (timeLeft / duration);
-      // since particles fall down, start a bit higher than random
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      });
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      });
-    }, 250);
+        if (timeLeft <= 0) {
+          onComplete({ audioVolume: 1 });
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        // since particles fall down, start a bit higher than random
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        });
+      }, 250);
+
+      intervalRef.current = interval;
+    }, 1000);
   };
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
   return (
     <div className="w-full h-dvh bg-[#faecef] relative">
       <Image

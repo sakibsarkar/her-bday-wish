@@ -1,7 +1,6 @@
 "use client";
 import chatData from "@/mock/chat";
 import gsap from "gsap";
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { FaPhoneFlip, FaVideo } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
@@ -22,14 +21,14 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
 
     tl.fromTo(
       "#chat",
-      { scale: 0.6, opacity: 0, y: -150 },
+      { scale: 0, opacity: 0, y: 0 },
       { scale: 1, opacity: 1, y: 0, duration: 0.6 }
     );
 
     tl.staggerTo(".input-char", 0.5, { display: "inline" }, 0.05).to(
       "#chat",
-      0.5,
-      { scale: 5, opacity: 0, y: -150 },
+      1,
+      { scale: 0, opacity: 0, y: 0 },
       "+=0.7"
     );
 
@@ -43,15 +42,8 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div
       id="chat"
-      className="flex flex-col gap-0 w-full h-[100dvh] relative max-w-[425px] mx-auto bg-[#070a24]"
+      className="flex flex-col gap-0 w-full h-[100dvh] relative max-w-[425px] mx-auto bg-[#070a24] justify-center"
     >
-      <Image
-        src="/images/chatbg.jpeg"
-        alt="Logo"
-        width={390}
-        height={844}
-        className="absolute w-full object-cover top-0 left-0 -z-10"
-      />
       {/* Top Bar */}
       <div className="flex justify-between items-center gap-3 p-2 bg-[#161f43] rounded">
         <div className="flex items-center gap-2">
@@ -69,7 +61,7 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
       </div>
 
       {/* Chat Messages */}
-      <div className="h-full w-full overflow-auto flex flex-col gap-[15px] shrink pb-4">
+      <div className="h-full w-full overflow-auto flex flex-col gap-[15px] shrink pb-4 relative bg-[url('/images/chatbg.jpeg')] bg-cover bg-no-repeat">
         {chatData.map(({ message, user }, i) => (
           <div key={i + "chat_message"} className="w-full">
             {user === "me" ? (

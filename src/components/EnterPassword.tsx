@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type React from "react";
 
 import { useState } from "react";
@@ -11,16 +12,19 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [animating, setAnimating] = useState(false);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!password.length) return;
     if (password !== tempPassword) return;
-    setIsSubmitted(true);
+    setAnimating(true);
     setPassword("");
+    setIsSubmitted(true);
+
     setTimeout(() => {
+      setAnimating(false);
       onVerified?.();
-    }, 2000);
+    }, 1500);
   };
 
   return (
@@ -74,40 +78,60 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Password input */}
           <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="block text-pink-700 font-bold text-sm"
+            <div
+              className={`space-y-2 transition-all duration-700 ${
+                animating ? "opacity-0 -translate-y-6" : "opacity-100"
+              }`}
             >
-              🔐 Password
-            </label>
-            <div className="relative duration-75">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={() => {
-                  const audio = new Audio("/audio/key.mp3");
-                  audio.play();
-                }}
-                placeholder="Enter your secret..."
-                className="w-full px-6 py-4 bg-pink-50 border-3 border-pink-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-pink-400 focus:border-pink-400 text-pink-900 placeholder-pink-300 font-medium transition-all duration-200 hover:border-pink-400"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-pink-500 hover:text-pink-700 transition-colors cursor-pointer"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+              {" "}
+              <label
+                htmlFor="password"
+                className="block text-pink-700 font-bold text-sm"
               >
-                {showPassword ? <FiEyeOff size={20} /> : <FiEyeOff size={20} />}
-              </button>
+                🔐 Password
+              </label>
+              <div className="relative duration-75">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={() => {
+                    const audio = new Audio("/audio/key.mp3");
+                    audio.play();
+                  }}
+                  placeholder="Enter your secret..."
+                  className="w-full px-6 py-4 bg-pink-50 border-3 border-pink-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-pink-400 focus:border-pink-400 text-pink-900 placeholder-pink-300 font-medium transition-all duration-200 hover:border-pink-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-pink-500 hover:text-pink-700 transition-colors cursor-pointer"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <FiEyeOff size={20} />
+                  ) : (
+                    <FiEyeOff size={20} />
+                  )}
+                </button>
+                <Image
+                  src="/images/mewmew.gif"
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="absolute top-[-97px] right-0 w-[100p]"
+                />
+              </div>
             </div>
           </div>
 
           {/* Submit button */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border-b-4 border-pink-600 relative overflow-hidden group"
+            className={` w-full bg-gradient-to-r from-pink-400 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-500 transform border-b-4 border-pink-600 relative overflow-hidden group shadow-lg ${
+              animating ? "translate-y-[-40px] scale-110" : ""
+            } ${isSubmitted ? "scale-125 bg-pink-500 shadow-2xl" : ""}`}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               {isSubmitted ? (
@@ -122,7 +146,11 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
                 </>
               )}
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-300 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+
+            {/* Cute glow */}
+            {animating && (
+              <div className="absolute inset-0 bg-white/30 animate-pulse rounded-2xl"></div>
+            )}
           </button>
 
           {/* Password strength indicator */}
@@ -151,10 +179,11 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
 
       {/* Success message */}
       {isSubmitted && (
-        <div className="mt-6 text-center animate-bounce">
-          <p className="text-pink-600 font-bold text-lg">
-            🎉 Password accepted! 🎉
-          </p>
+        <div
+          className="mt-6 text-center text-pink-600 font-bold text-lg
+               animate-[fadein_1s_ease-in-out]"
+        >
+          🎉 Password accepted! 🎉
         </div>
       )}
     </div>
