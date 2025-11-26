@@ -155,7 +155,7 @@ const ChooseGift = ({ onComplete }: { onComplete: () => void }) => {
         "-=0.4"
       );
 
-    tl.to({}, { duration: 3 });
+    tl.to({}, { duration: 4 });
 
     timelineRef.current = tl;
 

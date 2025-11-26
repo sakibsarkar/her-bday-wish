@@ -52,6 +52,31 @@ const BallonWish = ({
       tl.kill(); // Cleanup
     };
   }, [isCandleBlowed]);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
+
+    tl.from("#bunting", {
+      y: -100,
+      autoAlpha: 0,
+      duration: 1,
+      ease: "bounce.out",
+    }).from(
+      ".cake",
+      {
+        y: 50, // comes slightly from below
+        scale: 0.8, // starts a bit smaller
+        autoAlpha: 0, // fades in
+        duration: 1.2,
+        ease: "power3.out",
+      },
+      "-=0.5" // overlap a little with bunting
+    );
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
   const blowAudio = new Audio("/audio/blow.mp3");
 
   const handleCandleBlow = () => {
@@ -108,6 +133,7 @@ const BallonWish = ({
         className="w-full max-w-[600px] absolute top-0 left-[50%] translate-x-[-50%]"
         width={600}
         height={400}
+        id="bunting"
       />
 
       <div className="w-full h-full center flex-col">
@@ -115,43 +141,12 @@ const BallonWish = ({
           isCandleBlowed={isCandleBlowed}
           onCanldeBlow={handleCandleBlow}
         />
-      </div>
-
-      {/* baloons */}
-      <div className="baloons top-0 left-0 absolute w-full h-full flex items-center flex-col z-20">
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon3.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
-        <img src="images/ballon2.svg" alt="" />
-        <img src="images/ballon1.svg" alt="" />
+        {/* baloons */}
+        <div className="baloons top-0 left-0 absolute w-full h-full flex items-center flex-col z-20">
+          {Array.from({ length: 36 }).map((_, idx) => (
+            <img key={idx} src={`/images/ballon${(idx % 3) + 1}.svg`} alt="" />
+          ))}
+        </div>{" "}
       </div>
     </div>
   );
