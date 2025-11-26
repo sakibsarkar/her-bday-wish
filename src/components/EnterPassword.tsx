@@ -1,22 +1,36 @@
 "use client";
 
+import { loginAction } from "@/app/actions/auth.action";
 import Image from "next/image";
 import type React from "react";
 
 import { useState } from "react";
 import { BiLock } from "react-icons/bi";
-import { FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { toast } from "sonner";
 
-const tempPassword = "1234";
 const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password.length) return;
-    if (password !== tempPassword) return;
+
+    setIsLoading(true);
+    const res = await loginAction({ userName: "samia_khan", password });
+    setIsLoading(false);
+
+    if (!res.success) {
+      toast.error(res.message);
+      setPassword("");
+      return;
+    }
+
     setAnimating(true);
     setPassword("");
     setIsSubmitted(true);
@@ -96,7 +110,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyDown={() => {
+                  onKeyUp={() => {
                     const audio = new Audio("/audio/key.mp3");
                     audio.play();
                   }}
@@ -109,11 +123,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-pink-500 hover:text-pink-700 transition-colors cursor-pointer"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    <FiEyeOff size={20} />
-                  ) : (
-                    <FiEyeOff size={20} />
-                  )}
+                  {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                 </button>
                 <Image
                   src="/images/mewmew.gif"
@@ -129,7 +139,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
           {/* Submit button */}
           <button
             type="submit"
-            className={` w-full bg-gradient-to-r from-pink-400 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-500 transform border-b-4 border-pink-600 relative overflow-hidden group shadow-lg ${
+            className={` w-full bg-gradient-to-r from-pink-400 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-[0.3s] transform border-b-4 border-pink-600 relative overflow-hidden group shadow-lg cursor-pointer active:scale-[0.5] ${
               animating ? "translate-y-[-40px] scale-110" : ""
             } ${isSubmitted ? "scale-125 bg-pink-500 shadow-2xl" : ""}`}
           >
@@ -141,8 +151,8 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
                 </>
               ) : (
                 <>
-                  <span>Unlock</span>
-                  <span className="text-xl">🔓</span>
+                  <span>{isLoading ? "Unlocking..." : "Unlock"}</span>
+                  <span className="text-xl">{isLoading ? "🤔" : "🔓"}</span>
                 </>
               )}
             </span>

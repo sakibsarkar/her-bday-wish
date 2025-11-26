@@ -4,6 +4,10 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import { FaPhoneFlip, FaVideo } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
+
+import userImg from "../../privateAssets/user.jpg";
+import Image from "next/image";
+
 const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
   const fullMessage =
     "Happy birthday to you!! You’ve brought so much happiness into my life, and I hope today brings you just as much as you give the world every single day. Happy birthday! blah blah blah...";
@@ -47,8 +51,10 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
       {/* Top Bar */}
       <div className="flex justify-between items-center gap-3 p-2 bg-[#161f43] rounded">
         <div className="flex items-center gap-2">
-          <img
-            src="/images/user.jpg"
+          <Image
+            width={30}
+            height={30}
+            src={userImg!}
             alt="User"
             className="w-[30px] h-[30px] rounded-full object-cover"
           />
@@ -72,8 +78,10 @@ const MessageInbox = ({ onComplete }: { onComplete: () => void }) => {
               </div>
             ) : (
               <div className="flex items-end gap-2 pl-2">
-                <img
-                  src="/images/user.jpg"
+                <Image
+                  width={30}
+                  height={30}
+                  src={userImg!}
                   className="w-[30px] h-[30px] rounded-full object-cover"
                   alt="User"
                 />

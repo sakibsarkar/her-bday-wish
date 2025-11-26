@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import BallonWish from "./steps/BallonWish";
 import BeforeShow from "./steps/BeforeShow";
+import ChooseGift from "./steps/ChooseGift";
 import Ending from "./steps/Ending";
 import Greeting from "./steps/Greeting";
 import ItsHBD from "./steps/ItsHBD";
@@ -13,8 +14,8 @@ export interface ICompleteOption {
   audioVolume?: number;
 }
 
-const BirthdayGreeting = () => {
-  const [step, setStep] = useState(7);
+const BirthdayGreeting = ({ onEnd }: { onEnd: () => void }) => {
+  const [step, setStep] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleComplete = (options?: ICompleteOption) => {
@@ -60,8 +61,18 @@ const BirthdayGreeting = () => {
         />
       )}
 
-      {/* Step 7 – MULTIPLE CONTENT */}
-      {step === 7 && <Ending onComplete={handleComplete} />}
+      {step === 7 && <ChooseGift onComplete={handleComplete} />}
+      {step === 8 && (
+        <Ending
+          onComplete={() => {
+            if (audioRef.current) {
+              audioRef.current?.pause();
+              audioRef.current = null;
+            }
+            onEnd();
+          }}
+        />
+      )}
     </div>
   );
 };

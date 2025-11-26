@@ -1,6 +1,7 @@
 import { alkatra, caveatBrush, patrickHand, titanOne } from "@/fonts";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster richColors position="top-center" />
         {children}
         <span
           className={`w-0 h-0 ${alkatra.className} ${caveatBrush.className} ${patrickHand.className} ${titanOne.className} `}

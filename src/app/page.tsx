@@ -7,7 +7,7 @@ const Page = () => {
   return (
     <>
       {shouldStart ? (
-        <BirthdayGreeting />
+        <BirthdayGreeting onEnd={() => setShouldStart(false)} />
       ) : (
         <main className="min-h-dvh bg-gradient-to-br from-pink-50 via-pink-100 to-pink-50 flex items-center justify-center p-4">
           <EnterPassword
