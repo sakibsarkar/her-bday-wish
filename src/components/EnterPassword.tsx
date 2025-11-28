@@ -19,7 +19,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password.length) return;
+    if (!password.length || isLoading) return;
 
     setIsLoading(true);
     const res = await loginAction({ userName: "samia_khan", password });
