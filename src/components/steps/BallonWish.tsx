@@ -75,6 +75,7 @@ const BallonWish = ({
 
     return () => {
       tl.kill();
+      console.log("cleanup");
     };
   }, []);
   const blowAudio = new Audio("/audio/blow.mp3");

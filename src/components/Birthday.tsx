@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { ISong } from "./MusicSelection/MusicPlayer";
 import BallonWish from "./steps/BallonWish";
 import BeforeShow from "./steps/BeforeShow";
 import ChooseGift from "./steps/ChooseGift";
@@ -14,8 +15,14 @@ export interface ICompleteOption {
   audioVolume?: number;
 }
 
-const BirthdayGreeting = ({ onEnd }: { onEnd: () => void }) => {
-  const [step, setStep] = useState(0);
+const BirthdayGreeting = ({
+  onEnd,
+  song,
+}: {
+  onEnd: () => void;
+  song?: ISong;
+}) => {
+  const [step, setStep] = useState(5);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleComplete = (options?: ICompleteOption) => {
@@ -26,7 +33,8 @@ const BirthdayGreeting = ({ onEnd }: { onEnd: () => void }) => {
   };
 
   useEffect(() => {
-    audioRef.current = new Audio("/audio/main.mp3");
+    audioRef.current = new Audio(song?.src || "/audio/musics/main.mp3");
+    audioRef.current.currentTime = song?.playTime || 0;
     audioRef.current
       .play()
       .catch((err) => console.log("Audio play failed:", err));
