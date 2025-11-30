@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { SONGS } from "@/mock/songs";
+import gsap from "gsap";
+import { useLayoutEffect, useRef, useState } from "react";
 import { BiPause, BiPlay } from "react-icons/bi";
 
 export interface ISong {
@@ -11,31 +13,26 @@ export interface ISong {
 }
 
 interface MusicPlayerProps {
-  songs: ISong[];
   onSelectSong?: (id: string) => void;
   onContinue: (id: string) => void;
 }
 
 export default function MusicPlayer({
-  songs,
   onSelectSong,
   onContinue,
 }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [selectedSong, setSelectedSong] = useState<string | null>(null);
-
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   const handlePlayToggle = (song: ISong) => {
     onSelectSong?.(song.id);
 
-    // If clicking a different song, stop the current one
     if (selectedSong !== song.id && audioRef.current) {
       audioRef.current.pause();
       setPlayingId(null);
     }
 
-    // Toggle play/pause on the clicked song
     if (playingId === song.id) {
       audioRef.current?.pause();
       setPlayingId(null);
@@ -52,15 +49,29 @@ export default function MusicPlayer({
     }
   };
 
+  // Animate songs on mount
+  useLayoutEffect(() => {
+    const tl = gsap.timeline({
+      defaults: { duration: 0.6, ease: "power3.out" },
+    });
+
+    SONGS.forEach((song, idx) => {
+      tl.fromTo(
+        `#song-${song.id}`,
+        { y: 30, autoAlpha: 0 }, // start below and invisible
+        { y: 0, autoAlpha: 1 }, // move to natural position and fully visible
+        idx * 0.3 // stagger
+      );
+    });
+  }, []);
+
   return (
     <div className="relative w-full max-w-2xl">
       <div className="absolute -inset-8 bg-gradient-to-br from-pink-200/30 via-purple-200/20 to-blue-200/30 rounded-3xl blur-2xl"></div>
 
       <audio ref={audioRef} />
 
-      {/* Main playlist card */}
-      <div className="relative bg-purple-50/10 rounded-2xl shadow-2xl py-3 border-2 border-pink-200 backdrop-blur-[5px]">
-        {/* Musical decorations */}
+      <div className="relative bg-transparent rounded-2xl shadow-2xl py-3 border-2 border-[#fdabae] backdrop-blur-[2px]">
         <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center shadow-lg animate-bounce-gentle">
           <div className="text-white text-2xl">♪</div>
         </div>
@@ -69,21 +80,21 @@ export default function MusicPlayer({
           <div className="text-white text-lg">♫</div>
         </div>
 
-        {/* Songs list */}
-        <div className="mb-3 max-h-[330px] overflow-auto smoothBar">
-          {songs.map((song, index) => {
+        <div className="mb-3 max-h-[400px] overflow-auto smoothBar">
+          {SONGS.map((song, index) => {
             const isPlaying = playingId === song.id;
             const isSelected = selectedSong === song.id;
-            const isLast = index === songs.length - 1;
+            const isLast = index === SONGS.length - 1;
             return (
               <div
-                key={song.id}
+                key={`song-${song.id}`}
+                id={`song-${song.id}`} // unique id for animation
                 onClick={() => handlePlayToggle(song)}
                 className={`flex items-center gap-3 p-3 transition-all duration-300 rounded-[4px] px-3 ${
                   isSelected
                     ? "bg-gradient-to-r from-pink-400/10 to-purple-500/10"
                     : "bg-transparent"
-                } ${isLast ? "" : "border-b border-pink-200"}`}
+                } ${isLast ? "" : "border-b border-[#ffa3d7]"}`}
               >
                 <button
                   className={`flex-shrink-0 p-2 rounded-full transition-all duration-300 ${
@@ -131,7 +142,6 @@ export default function MusicPlayer({
           })}
         </div>
 
-        {/* Continue button */}
         <div className="px-3">
           <button
             onClick={() => {

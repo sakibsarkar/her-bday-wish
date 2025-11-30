@@ -6,12 +6,12 @@ import MusicSelector from "@/components/MusicSelection/MusicSelector";
 import { useState } from "react";
 type TStep = "auth" | "music-selection" | "main";
 const Page = () => {
-  const [shouldStart, setShouldStart] = useState<TStep>("main");
-  const [song, setSong] = useState<ISong | null>(null);
+  const [shouldStart, setShouldStart] = useState<TStep>("auth");
+  const [song, setSong] = useState<ISong | undefined>();
   return (
     <>
       {shouldStart === "auth" ? (
-        <main className="min-h-dvh bg-gradient-to-br from-pink-50 via-pink-100 to-pink-50 flex items-center justify-center p-4">
+        <main className="bg-[url('/images/auth_bg.jpg')] bg-cover bg-no-repeat min-h-dvh bg-gradient-to-br from-pink-50 via-pink-100 to-pink-50 flex items-center justify-center p-4">
           <EnterPassword
             onVerified={() => {
               setShouldStart("music-selection");
@@ -26,10 +26,7 @@ const Page = () => {
           }}
         />
       ) : shouldStart === "main" ? (
-        <BirthdayGreeting
-          song={song || undefined}
-          onEnd={() => setShouldStart("auth")}
-        />
+        <BirthdayGreeting song={song} onEnd={() => setShouldStart("auth")} />
       ) : (
         ""
       )}

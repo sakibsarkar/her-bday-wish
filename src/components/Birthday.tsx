@@ -22,7 +22,7 @@ const BirthdayGreeting = ({
   onEnd: () => void;
   song?: ISong;
 }) => {
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleComplete = (options?: ICompleteOption) => {

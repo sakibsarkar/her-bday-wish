@@ -56,26 +56,19 @@ const BallonWish = ({
   useEffect(() => {
     const tl = gsap.timeline();
 
-    tl.from("#bunting", {
-      y: -100,
-      autoAlpha: 0,
-      duration: 1,
-      ease: "bounce.out",
-    }).from(
+    tl.fromTo(
+      "#bunting",
+      { y: -100, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 1, ease: "power2.out" }
+    ).fromTo(
       ".cake",
-      {
-        y: 50, // comes slightly from below
-        scale: 0.8, // starts a bit smaller
-        autoAlpha: 0, // fades in
-        duration: 1.2,
-        ease: "power3.out",
-      },
-      "-=0.5" // overlap a little with bunting
+      { y: 50, scale: 0.8, autoAlpha: 0 },
+      { y: 0, scale: 1, autoAlpha: 1, duration: 1.2, ease: "power3.out" },
+      "-=0.5"
     );
 
     return () => {
       tl.kill();
-      console.log("cleanup");
     };
   }, []);
   const blowAudio = new Audio("/audio/blow.mp3");

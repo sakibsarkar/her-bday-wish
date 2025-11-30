@@ -64,7 +64,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
       </div>
 
       {/* Main form card */}
-      <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border-4 border-pink-200">
+      <div className="relative bg-white/10  backdrop-blur-sm rounded-3xl shadow-2xl p-8 border-4 border-pink-200">
         {/* Top decoration */}
         <div className="absolute -top-6 left-1/2 -translate-x-1/2 flex gap-1">
           <div className="w-4 h-8 bg-pink-400 rounded-full transform -rotate-12"></div>
