@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ISong } from "./MusicSelection/MusicPlayer";
+import BallonPop from "./steps/BallonPop";
 import BallonWish from "./steps/BallonWish";
 import BeforeShow from "./steps/BeforeShow";
 import ChooseGift from "./steps/ChooseGift";
@@ -22,7 +23,7 @@ const BirthdayGreeting = ({
   onEnd: () => void;
   song?: ISong;
 }) => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(7);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleComplete = (options?: ICompleteOption) => {
@@ -35,9 +36,9 @@ const BirthdayGreeting = ({
   useEffect(() => {
     audioRef.current = new Audio(song?.src || "/audio/musics/main.mp3");
     audioRef.current.currentTime = song?.playTime || 0;
-    audioRef.current
-      .play()
-      .catch((err) => console.log("Audio play failed:", err));
+    // audioRef.current
+    //   .play()
+    //   .catch((err) => console.log("Audio play failed:", err));
 
     return () => audioRef.current?.pause();
   }, []);
@@ -68,9 +69,19 @@ const BirthdayGreeting = ({
           }}
         />
       )}
+      {step === 7 && (
+        <BallonPop
+          onComplete={handleComplete}
+          onCandleBlow={() => {
+            if (audioRef.current) {
+              audioRef.current.volume = 0.4;
+            }
+          }}
+        />
+      )}
 
-      {step === 7 && <ChooseGift onComplete={handleComplete} />}
-      {step === 8 && (
+      {step === 8 && <ChooseGift onComplete={handleComplete} />}
+      {step === 9 && (
         <Ending
           onComplete={() => {
             if (audioRef.current) {

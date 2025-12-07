@@ -6,7 +6,7 @@ import MusicSelector from "@/components/MusicSelection/MusicSelector";
 import { useState } from "react";
 type TStep = "auth" | "music-selection" | "main";
 const Page = () => {
-  const [shouldStart, setShouldStart] = useState<TStep>("auth");
+  const [shouldStart, setShouldStart] = useState<TStep>("main");
   const [song, setSong] = useState<ISong | undefined>();
   return (
     <>

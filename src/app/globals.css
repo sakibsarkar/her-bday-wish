@@ -247,3 +247,58 @@ body {
   background-color: #c2c2c2;
   border-radius: 5px;
 }
+
+.balloon {
+  background: radial-gradient(circle at 30% 30%, #ff6666, #b30000);
+  border-radius: 60% 60% 55% 55%;
+  /* animation: float 3s ease-in-out infinite; */
+}
+
+/* String */
+.balloonString {
+  position: absolute;
+  bottom: -90px;
+  left: 50%;
+  width: 2px;
+  height: 90px;
+  background: #a44;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+/* Float animation */
+/* @keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+} */
+
+/* Burst rubber pieces */
+.piece {
+  width: 12px;
+  height: 8px;
+  background: #b30000;
+  border-radius: 3px;
+  position: absolute;
+  opacity: 0;
+}
+
+@keyframes burst {
+  from {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(0.4) rotate(360deg);
+  }
+}
+.stringSegment {
+  transform-origin: top center;
+}

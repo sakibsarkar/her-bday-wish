@@ -38,7 +38,7 @@ const MusicSelector = ({
   }, []);
 
   return (
-    <div className="max-h-dvh h-full flex items-center justify-center p-4 relative overflow-x-hidden overflow-y-auto bg-[url('https://wallpapers-clan.com/wp-content/uploads/2025/05/kawaii-white-chibi-cat-pink-background-wallpaper-preview.jpg')] bg-no-repeat bg-cover">
+    <div className="max-h-dvh h-full flex items-center justify-center p-4 relative overflow-x-hidden overflow-y-auto bg-[url('/images/music_bg.jpg')] bg-no-repeat bg-cover">
       {/* Musical notes */}
       <div
         id="ms-note1"
