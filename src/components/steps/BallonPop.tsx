@@ -1,6 +1,7 @@
 import { getAge } from "@/utils/date";
 import { gsap } from "gsap";
 import { useEffect, useRef, useState } from "react";
+import { ICompleteOption } from "../Birthday";
 
 const TOTAL_BALLOONS = getAge("2003-06-12");
 // Helper to generate random bright radial gradient
@@ -17,10 +18,24 @@ const getRandomGradient = () => {
   return `radial-gradient(circle at 30% 30%, ${random[0]}, ${random[1]})`;
 };
 
-const BalloonPop = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+const Balloon = ({
+  x,
+  y,
+  index,
+  total,
+  onBurstEnd,
+  color,
+}: {
+  x: number;
+  y: number;
+  index: number;
+  total: number;
+  onBurstEnd?: (index: number) => void;
+  color: string;
+}) => {
   const brustAudioRef = useRef<HTMLAudioElement>(null);
+
+  const [isPoped, setIsPoped] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const balloonRef = useRef<HTMLDivElement>(null);
@@ -29,11 +44,11 @@ const BalloonPop = () => {
     if (containerRef.current) {
       gsap.fromTo(
         containerRef.current,
-        { y: 400, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "power2.out" }
+        { y: 400, opacity: 1 },
+        { y: 0, opacity: 1, duration: 1 * (index * 0.1), ease: "power2.out" }
       );
     }
-  }, [currentIndex]);
+  }, []);
 
   useEffect(() => {
     brustAudioRef.current = new Audio();
@@ -41,12 +56,13 @@ const BalloonPop = () => {
   }, []);
 
   const onBurst = () => {
-    if (!balloonRef.current || !containerRef.current) return;
+    if (!balloonRef.current || !containerRef.current || isPoped) return;
+    setIsPoped(true);
 
     const balloon = balloonRef.current;
     const container = containerRef.current;
 
-    balloon.style.opacity = "0";
+    balloon.style.display = "none";
     if (brustAudioRef.current) {
       brustAudioRef.current.play();
     }
@@ -99,37 +115,102 @@ const BalloonPop = () => {
       );
     }
 
-    // Next balloon after pop
     setTimeout(() => {
-      balloon.style.opacity = "1";
-
-      if (currentIndex < TOTAL_BALLOONS - 1) {
-        setCurrentIndex(currentIndex + 1);
-      } else {
-        setCurrentIndex(0);
+      if (containerRef.current) {
+        containerRef.current.style.display = "none";
+        onBurstEnd?.(index);
       }
     }, 400);
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center overflow-hidden">
-      <div ref={containerRef} className="relative flex flex-col items-center">
-        <div
-          ref={balloonRef}
-          onClick={onBurst}
-          style={{ background: getRandomGradient() }}
-          className="balloon w-[140px] h-[180px] cursor-pointer center"
-        >
-          {currentIndex + 1}
-        </div>
-        <div className="balloonStringContainer absolute top-[180px] left-1/2 -translate-x-1/2 flex flex-col items-center">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="stringSegment w-[2px] h-[12px] bg-gray-700 origin-top"
-            ></div>
-          ))}
-        </div>
+    <div
+      style={{ left: x, top: y }}
+      ref={containerRef}
+      className="absolute flex flex-col items-center"
+    >
+      <div
+        ref={balloonRef}
+        onClick={onBurst}
+        style={{ background: color }}
+        className="balloon w-[140px] h-[180px] cursor-pointer center"
+      >
+        {total - index}
+      </div>
+      <div className="balloonStringContainer absolute top-[180px] left-1/2 -translate-x-1/2 flex flex-col items-center">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={i}
+            className="stringSegment w-[2px] h-[12px] bg-gray-700 origin-top"
+          ></div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const BalloonPop = ({
+  onComplete,
+  onRender,
+}: {
+  onComplete: (options?: ICompleteOption) => void;
+  onRender?: () => void;
+}) => {
+  const [, setPopCount] = useState(0);
+  const allPoppedRef = useRef(false);
+
+  const [balloons, setBalloons] = useState<
+    { x: number; y: number; color: string }[]
+  >([]);
+  const ballonsContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ballonsContainerRef.current) return;
+
+    const w = ballonsContainerRef.current.clientWidth;
+    const h = ballonsContainerRef.current.clientHeight;
+
+    const created = Array.from({ length: TOTAL_BALLOONS }).map(() => ({
+      x: Math.random() * (w - 140), // subtract balloon width
+      y: Math.random() * (h - 180), // subtract balloon height
+      color: getRandomGradient(),
+    }));
+
+    setBalloons(created);
+
+    onRender?.();
+  }, []);
+
+  const handlePop = () => {
+    setPopCount((prev) => {
+      const newCount = prev + 1;
+
+      if (newCount >= TOTAL_BALLOONS && !allPoppedRef.current) {
+        allPoppedRef.current = true;
+        onComplete();
+      }
+
+      return newCount;
+    });
+  };
+
+  return (
+    <div className="w-screen h-screen flex items-center justify-center overflow-hidden p-[10px]">
+      <div
+        ref={ballonsContainerRef}
+        className="w-full max-w-[400px] max-h-[500px] h-full relative border border-gray-300 rounded"
+      >
+        {balloons.map((b, i) => (
+          <Balloon
+            onBurstEnd={handlePop}
+            total={balloons.length}
+            index={i}
+            key={i}
+            color={b.color}
+            x={b.x}
+            y={b.y}
+          />
+        ))}
       </div>
     </div>
   );
