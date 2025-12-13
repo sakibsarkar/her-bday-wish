@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { useEffect, useRef, useState } from "react";
 import { ICompleteOption } from "../Birthday";
 
-const TOTAL_BALLOONS = getAge("2003-06-12");
+const TOTAL_BALLOONS = getAge("2004-06-12");
 // Helper to generate random bright radial gradient
 const getRandomGradient = () => {
   const colors = [
@@ -22,7 +22,6 @@ const Balloon = ({
   x,
   y,
   index,
-  total,
   onBurstEnd,
   color,
 }: {
@@ -135,7 +134,7 @@ const Balloon = ({
         style={{ background: color }}
         className="balloon w-[140px] h-[180px] cursor-pointer center"
       >
-        {total - index}
+        {/* {total - index} */}
       </div>
       <div className="balloonStringContainer absolute top-[180px] left-1/2 -translate-x-1/2 flex flex-col items-center">
         {Array.from({ length: 6 }).map((_, i) => (
