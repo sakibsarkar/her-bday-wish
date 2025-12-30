@@ -8,7 +8,7 @@ const giftSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

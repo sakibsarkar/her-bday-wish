@@ -1,5 +1,6 @@
 "use client";
 
+import { saveGiftAction } from "@/app/actions/choice.action";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -104,21 +105,49 @@ const ChooseGift = ({ onComplete }: { onComplete: () => void }) => {
   const [revealed, setRevealed] = useState(false);
 
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const handleSelectGift = (giftId: number) => {
-    setSelectedGift(giftId);
 
-    // Delay before reveal animations, looks smoother
-    setTimeout(() => {
-      setRevealed(true);
-    }, 1000);
+  const [processCompleted, setProcessCompleted] = useState({
+    animation: false,
+    giftSet: false,
+  });
+
+  const handleSelectGift = async (giftId: number) => {
+    try {
+      setSelectedGift(giftId);
+
+      const giftObjId = localStorage.getItem("giftObjId") || undefined;
+      const gift = await saveGiftAction(`gift-${giftId}`, giftObjId);
+      setProcessCompleted((prev) => ({ ...prev, giftSet: true }));
+
+      if (gift) {
+        localStorage.setItem("giftObjId", gift._id.toString());
+      }
+      setTimeout(() => {
+        setRevealed(true);
+      }, 1000);
+    } catch {
+      setTimeout(() => {
+        setRevealed(true);
+      }, 1000);
+    }
   };
+
+  console.log(revealed);
+
   useEffect(() => {
     if (timelineRef.current) timelineRef.current.kill();
     if (!revealed) {
       return;
     }
 
-    const tl = gsap.timeline({ onComplete });
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setProcessCompleted((prev) => ({
+          ...prev,
+          animation: true,
+        }));
+      },
+    });
 
     tl.from(".reveal-emoji", {
       autoAlpha: 0,
@@ -163,6 +192,12 @@ const ChooseGift = ({ onComplete }: { onComplete: () => void }) => {
       tl.kill();
     };
   }, [revealed]);
+
+  useEffect(() => {
+    if (processCompleted.giftSet && processCompleted.animation) {
+      onComplete();
+    }
+  }, [processCompleted]);
 
   return (
     <div className="w-full mx-auto h-dvh flex-col center">

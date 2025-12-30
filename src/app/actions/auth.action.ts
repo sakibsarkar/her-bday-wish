@@ -77,7 +77,10 @@ export const loginAction = async ({
   return {
     message: "Login successful",
     status: 200,
-    data: null,
+    data: {
+      _id: user._id?.toString(),
+      userName: user.userName,
+    },
     success: true,
   };
 };
