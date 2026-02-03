@@ -35,7 +35,7 @@ const Greeting = ({ onComplete }: { onComplete: () => void }) => {
       >
         <Image
           src="/images/notePaper.webp"
-          alt="sonali"
+          alt=""
           width={550}
           height={401}
           className="w-[95%] mx-auto max-w-[550px] absolute -z-10 rotate-[-10deg]"
@@ -45,7 +45,7 @@ const Greeting = ({ onComplete }: { onComplete: () => void }) => {
         >
           <span className="text-text-main font-bold">Hey</span>
           <span className="  text-white font-semibold rounded w-full">
-            Sonali 🌸
+            MAYA 🌸
           </span>
         </h1>
         <p className="text-text-main rotate-[-10deg]">
