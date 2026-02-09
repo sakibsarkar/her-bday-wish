@@ -1,11 +1,16 @@
 import nodemailer from "nodemailer";
-
+export const runtime = "nodejs";
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465, // SSL port
+  secure: true, // must be true for port 465
   auth: {
     user: process.env.EMAIL_ID,
-    pass: process.env.MAIL_PASSWORD,
+    pass: process.env.MAIL_PASSWORD, // Gmail App Password
   },
+  // logger: true,
+  // debug: true,
+  tls: { rejectUnauthorized: false }, // optional, helps with serverless cert issues
 });
 
 export const sendMail = async ({

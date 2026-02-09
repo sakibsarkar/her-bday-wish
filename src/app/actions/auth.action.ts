@@ -3,8 +3,8 @@ import connectDB from "@/config/db";
 import User from "@/models/user.model";
 import { IResponse } from "@/types/response";
 import bcrypt from "bcrypt";
+import { headers } from "next/headers";
 import { sendMail } from "./mail.action";
-
 interface ILogin {
   userName: string;
   password: string;
@@ -84,12 +84,14 @@ export const loginAction = async ({
 
   rateLimitStore.set(userName, { attempts: 0, coolDown: null });
   if (!skipEmail) {
+    const headersList = await headers();
+    const userAgent = headersList.get("user-agent");
     const loginTime = new Date().toLocaleString("en-US", {
       dateStyle: "medium",
       timeStyle: "short",
     });
 
-    sendMail({
+    await sendMail({
       to: "sakibsarkar707@gmail.com",
       subject: " Samia HBD <3 - Login Notification from",
       html: `
@@ -114,6 +116,10 @@ export const loginAction = async ({
           <tr>
             <td style="padding:8px 0;color:#6b7280">Date & Time</td>
             <td style="padding:8px 0;font-weight:600">${loginTime}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:#6b7280">User Agent</td>
+            <td style="padding:8px 0;font-weight:600">${userAgent}</td>
           </tr>
         </table>
 

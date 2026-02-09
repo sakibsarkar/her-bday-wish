@@ -30,6 +30,7 @@ const EnterPassword = ({ onVerified }: { onVerified: () => void }) => {
       setPassword("");
       return;
     }
+    console.log(res);
 
     setAnimating(true);
     setPassword("");
